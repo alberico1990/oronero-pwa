@@ -75,6 +75,9 @@ main{padding:12px 14px;animation:pgIn .2s ease}
 .ptitle{font-family:var(--fd);font-size:21px;font-weight:900;margin-bottom:12px}
 /* CARD */
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shs)}
+/* STICKY FILTER */
+.sticky-filter{position:sticky;top:62px;z-index:20;background:var(--bg);padding:8px 14px 6px;margin:0 -14px;border-bottom:1px solid var(--line)}
+[data-theme="light"] .sticky-filter{background:var(--bg)}
 /* SEARCH */
 .sw{position:relative}
 .sicon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
@@ -307,50 +310,128 @@ const ICONS = {
   fanta:`<svg viewBox="0 0 80 80" fill="none"><rect x="26" y="22" width="28" height="40" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="16" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><circle cx="40" cy="42" r="7" fill="currentColor" opacity=".22"/></svg>`,
   sprite:`<svg viewBox="0 0 80 80" fill="none"><rect x="26" y="22" width="28" height="40" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="16" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><path d="M32 34l16 12M32 46l16-12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".28"/></svg>`,
   energy:`<svg viewBox="0 0 80 80" fill="none"><rect x="24" y="18" width="32" height="46" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="28" y="14" width="24" height="6" rx="2" fill="currentColor" opacity=".25"/><path d="M44 30l-8 14h8l-8 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".65"/></svg>`,
+  /* aliases caffetteria */
+  caffe:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M50 42c3 0 7 2 7 6s-4 6-7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="18" y="33" width="36" height="5" rx="2.5" fill="currentColor" opacity=".25"/><path d="M32 25c0-3 3-3 3-6M39 25c0-3 3-3 3-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`,
+  ginseng_orzo:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="18" y="33" width="36" height="5" rx="2.5" fill="currentColor" opacity=".25"/><path d="M36 24Q34 18 30 18Q27 14 33 14Q38 12 40 19Q42 12 47 14Q53 14 50 18Q46 18 44 24" fill="currentColor" opacity=".35" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>`,
+  decaffeinato:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M50 42c3 0 7 2 7 6s-4 6-7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="18" y="33" width="36" height="5" rx="2.5" fill="currentColor" opacity=".25"/><text x="27" y="29" font-size="9" font-weight="700" fill="currentColor" opacity=".5" font-family="sans-serif">DECA</text></svg>`,
+  caffe_corretto:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M50 42c3 0 7 2 7 6s-4 6-7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="18" y="33" width="36" height="5" rx="2.5" fill="currentColor" opacity=".25"/><path d="M44 18Q48 14 52 18Q56 22 52 26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".55"/></svg>`,
+  crema_caffe:`<svg viewBox="0 0 80 80" fill="none"><path d="M18 42h44l-5 18H23z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><ellipse cx="40" cy="42" rx="22" ry="7" fill="currentColor" opacity=".3" stroke="currentColor" stroke-width="1.5"/><path d="M28 41Q34 37 40 41Q46 45 52 41" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".6"/></svg>`,
+  macchiato_caldo:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M50 42c3 0 7 2 7 6s-4 6-7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><rect x="18" y="33" width="36" height="5" rx="2.5" fill="currentColor" opacity=".25"/><ellipse cx="36" cy="34" rx="5" ry="2.5" fill="currentColor" opacity=".4"/></svg>`,
+  macchiato_freddo:`<svg viewBox="0 0 80 80" fill="none"><path d="M26 32h28l-4 32H30z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="26" y="28" width="28" height="6" rx="3" fill="currentColor" opacity=".25"/><ellipse cx="40" cy="29" rx="5" ry="2" fill="currentColor" opacity=".4"/><circle cx="34" cy="50" r="2" fill="currentColor" opacity=".2"/><circle cx="46" cy="58" r="1.5" fill="currentColor" opacity=".2"/></svg>`,
+  /* colazione */
+  cornetto:`<svg viewBox="0 0 80 80" fill="none"><path d="M14 57Q20 28 40 24Q60 28 66 57Q50 49 40 51Q30 49 14 57z" fill="currentColor" opacity=".22" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M20 55Q30 45 40 47Q50 45 60 55" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none" opacity=".4"/></svg>`,
+  colazione_special:`<svg viewBox="0 0 80 80" fill="none"><path d="M14 57Q20 28 40 24Q60 28 66 57Q50 49 40 51Q30 49 14 57z" fill="currentColor" opacity=".22" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="40" cy="40" r="4" fill="currentColor" opacity=".5"/><path d="M34 40Q37 35 40 40Q43 45 46 40" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".55"/><text x="28" y="22" font-size="8" font-weight="700" fill="currentColor" opacity=".5" font-family="sans-serif">SPEC</text></svg>`,
+  cornetto_mini:`<svg viewBox="0 0 80 80" fill="none"><path d="M20 58Q25 38 40 34Q55 38 60 58Q50 52 40 54Q30 52 20 58z" fill="currentColor" opacity=".22" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>`,
+  biscotto_amarena:`<svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="42" r="20" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><circle cx="34" cy="38" r="3" fill="currentColor" opacity=".5"/><circle cx="47" cy="38" r="3" fill="currentColor" opacity=".5"/><circle cx="40" cy="49" r="3" fill="currentColor" opacity=".5"/></svg>`,
+  biscottino_amarena:`<svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="42" r="14" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><circle cx="36" cy="40" r="2.5" fill="currentColor" opacity=".5"/><circle cx="44" cy="40" r="2.5" fill="currentColor" opacity=".5"/><circle cx="40" cy="47" r="2.5" fill="currentColor" opacity=".5"/></svg>`,
+  /* acque */
+  acqua_1lt:`<svg viewBox="0 0 80 80" fill="none"><rect x="33" y="10" width="14" height="8" rx="3" fill="currentColor" opacity=".3"/><path d="M25 22Q22 26 22 34v28Q22 66 30 66h20Q58 66 58 62V34Q58 26 55 22z" fill="currentColor" opacity=".16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M26 44h28M26 52h28" stroke="currentColor" stroke-width="1" opacity=".25" stroke-linecap="round"/></svg>`,
+  /* soft drink */
+  succo_frutta:`<svg viewBox="0 0 80 80" fill="none"><rect x="22" y="30" width="36" height="34" rx="5" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="26" y="22" width="28" height="10" rx="3" fill="currentColor" opacity=".25"/><circle cx="40" cy="47" r="8" fill="currentColor" opacity=".2"/><path d="M36 47h8M40 43v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".4"/></svg>`,
+  succo_mirtillo:`<svg viewBox="0 0 80 80" fill="none"><rect x="22" y="30" width="36" height="34" rx="5" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="26" y="22" width="28" height="10" rx="3" fill="currentColor" opacity=".25"/><circle cx="36" cy="47" r="5" fill="currentColor" opacity=".35"/><circle cx="44" cy="47" r="5" fill="currentColor" opacity=".35"/><circle cx="40" cy="53" r="5" fill="currentColor" opacity=".35"/></svg>`,
+  coca_33:`<svg viewBox="0 0 80 80" fill="none"><rect x="26" y="22" width="28" height="40" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="16" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><path d="M36 14l4-4h4l2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M30 37h20M30 46h20" stroke="currentColor" stroke-width="1.2" opacity=".28" stroke-linecap="round"/></svg>`,
+  coca_15:`<svg viewBox="0 0 80 80" fill="none"><rect x="24" y="18" width="32" height="46" rx="7" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="28" y="12" width="24" height="8" rx="3" fill="currentColor" opacity=".25"/><path d="M28 38h24M28 48h24" stroke="currentColor" stroke-width="1.2" opacity=".28" stroke-linecap="round"/></svg>`,
+  lemonsoda:`<svg viewBox="0 0 80 80" fill="none"><rect x="26" y="22" width="28" height="40" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="16" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><circle cx="40" cy="44" r="8" fill="currentColor" opacity=".22"/><path d="M36 44h8M40 40v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".55"/></svg>`,
+  schweppes:`<svg viewBox="0 0 80 80" fill="none"><rect x="28" y="20" width="24" height="42" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="14" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><path d="M32 36Q36 32 40 36Q44 40 48 36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".5"/><path d="M32 46Q36 42 40 46Q44 50 48 46" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity=".5"/></svg>`,
+  /* analcolici */
+  tassoni:`<svg viewBox="0 0 80 80" fill="none"><path d="M28 36h24l-3 26H31z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M32 36Q28 26 32 22h16Q52 26 48 36" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="45" cy="46" r="2" fill="currentColor" opacity=".4"/><circle cx="37" cy="54" r="2" fill="currentColor" opacity=".4"/></svg>`,
+  crodino:`<svg viewBox="0 0 80 80" fill="none"><path d="M30 38h20l-2 24H32z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M33 38Q30 28 33 24h14Q47 28 47 38" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><rect x="28" y="34" width="24" height="5" rx="2.5" fill="currentColor" opacity=".25"/></svg>`,
+  san_bitter:`<svg viewBox="0 0 80 80" fill="none"><path d="M24 38h32l-4 24H28z" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M28 38Q24 28 28 22h24Q56 28 52 38" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M30 32h20" stroke="currentColor" stroke-width="1" opacity=".3" stroke-linecap="round"/></svg>`,
+  chinotto:`<svg viewBox="0 0 80 80" fill="none"><rect x="28" y="24" width="24" height="38" rx="5" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="18" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><circle cx="40" cy="46" r="7" fill="currentColor" opacity=".22"/></svg>`,
+  powerade:`<svg viewBox="0 0 80 80" fill="none"><rect x="26" y="20" width="28" height="44" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="14" width="20" height="8" rx="3" fill="currentColor" opacity=".25"/><path d="M44 30l-8 12h8l-8 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".55"/></svg>`,
+  monster_redbull:`<svg viewBox="0 0 80 80" fill="none"><rect x="24" y="18" width="32" height="46" rx="6" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="28" y="14" width="24" height="6" rx="2" fill="currentColor" opacity=".25"/><path d="M44 30l-8 14h8l-8 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".65"/></svg>`,
+  /* birre */
+  peroni:`<svg viewBox="0 0 80 80" fill="none"><rect x="28" y="26" width="24" height="36" rx="4" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="18" width="20" height="10" rx="3" fill="currentColor" opacity=".25"/><path d="M52 34c4 0 8 3 8 8s-4 8-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="40" cy="27" rx="8" ry="3" fill="currentColor" opacity=".3"/></svg>`,
+  heineken:`<svg viewBox="0 0 80 80" fill="none"><rect x="28" y="26" width="24" height="36" rx="4" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="18" width="20" height="10" rx="3" fill="currentColor" opacity=".25"/><path d="M52 34c4 0 8 3 8 8s-4 8-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M32 40h16" stroke="currentColor" stroke-width="1" opacity=".3" stroke-linecap="round"/></svg>`,
+  corona:`<svg viewBox="0 0 80 80" fill="none"><rect x="28" y="26" width="24" height="36" rx="4" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="30" y="18" width="20" height="10" rx="3" fill="currentColor" opacity=".25"/><path d="M52 34c4 0 8 3 8 8s-4 8-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="40" cy="46" r="5" fill="currentColor" opacity=".22"/></svg>`,
+  tennets:`<svg viewBox="0 0 80 80" fill="none"><rect x="26" y="24" width="28" height="38" rx="5" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/><rect x="28" y="16" width="24" height="10" rx="3" fill="currentColor" opacity=".25"/><path d="M54 34c4 0 8 3 8 9s-4 8-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><ellipse cx="40" cy="25" rx="9" ry="3" fill="currentColor" opacity=".3"/></svg>`,
+  /* vino */
+  maschio:`<svg viewBox="0 0 80 80" fill="none"><path d="M28 20h24Q56 36 48 46L40 52L32 46Q24 36 28 20z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="40" y1="52" x2="40" y2="64" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="32" y1="64" x2="48" y2="64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M29 32h22" stroke="currentColor" stroke-width="1" opacity=".3" stroke-linecap="round"/></svg>`,
+  spumante:`<svg viewBox="0 0 80 80" fill="none"><path d="M34 14h12v8Q50 26 52 36v26Q52 68 40 68Q28 68 28 62V36Q30 26 34 22z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><circle cx="45" cy="42" r="2" fill="currentColor" opacity=".45"/><circle cx="37" cy="52" r="1.5" fill="currentColor" opacity=".45"/><circle cx="45" cy="56" r="1.5" fill="currentColor" opacity=".45"/><circle cx="38" cy="36" r="1.5" fill="currentColor" opacity=".45"/></svg>`,
+  /* cocktail & liquori */
+  drink:`<svg viewBox="0 0 80 80" fill="none"><path d="M20 18h40L40 50z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="40" y1="50" x2="40" y2="64" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="30" y1="64" x2="50" y2="64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="53" cy="24" r="4" fill="currentColor" opacity=".4" stroke="currentColor" stroke-width="1"/><line x1="37" y1="18" x2="52" y2="24" stroke="currentColor" stroke-width="1" opacity=".45" stroke-dasharray="3 2"/></svg>`,
+  drink_special:`<svg viewBox="0 0 80 80" fill="none"><path d="M18 18h44L40 50z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><line x1="40" y1="50" x2="40" y2="64" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="30" y1="64" x2="50" y2="64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="54" cy="24" r="4" fill="currentColor" opacity=".4" stroke="currentColor" stroke-width="1"/><circle cx="26" cy="24" r="3" fill="currentColor" opacity=".3" stroke="currentColor" stroke-width="1"/></svg>`,
+  amaro:`<svg viewBox="0 0 80 80" fill="none"><path d="M30 28h20l-3 30H33z" fill="currentColor" opacity=".22" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="28" y="24" width="24" height="6" rx="3" fill="currentColor" opacity=".3"/><path d="M33 42h14" stroke="currentColor" stroke-width="1" opacity=".3" stroke-linecap="round"/></svg>`,
+  limoncello:`<svg viewBox="0 0 80 80" fill="none"><path d="M32 30h16l-2 28H34z" fill="currentColor" opacity=".22" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="30" y="26" width="20" height="6" rx="3" fill="currentColor" opacity=".3"/><circle cx="40" cy="50" r="5" fill="currentColor" opacity=".25"/></svg>`,
+  cicchetto:`<svg viewBox="0 0 80 80" fill="none"><path d="M33 32h14l-2 24H35z" fill="currentColor" opacity=".22" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="31" y="28" width="18" height="6" rx="3" fill="currentColor" opacity=".3"/></svg>`,
+  /* bevande calde */
+  te_caldo:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M50 42c3 0 7 2 7 6s-4 6-7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="36" y1="22" x2="36" y2="33" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/><rect x="30" y="16" width="12" height="8" rx="3" fill="currentColor" opacity=".3" stroke="currentColor" stroke-width="1"/></svg>`,
+  camomilla:`<svg viewBox="0 0 80 80" fill="none"><path d="M22 36h28l-4 20H26z" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M50 42c3 0 7 2 7 6s-4 6-7 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="36" cy="20" r="5" fill="currentColor" opacity=".3" stroke="currentColor" stroke-width="1"/><circle cx="29" cy="17" r="3.5" fill="currentColor" opacity=".22"/><circle cx="43" cy="17" r="3.5" fill="currentColor" opacity=".22"/><line x1="36" y1="25" x2="36" y2="33" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/></svg>`,
   default:`<svg viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="22" fill="currentColor" opacity=".2" stroke="currentColor" stroke-width="1.5"/></svg>`
 };
 function icon(id){ return ICONS[id]||ICONS.default; }
 
 /* ── CATALOG ── */
+const ZUCCHERO = {key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]};
 const CATALOG = [
-  {id:"espresso",cat:"Caffetteria",name:"Caffè espresso",price:1.20,tags:[],
-   opts:[{key:"tipo",label:"Tipo",choices:["normale","deca"]},{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]}]},
-  {id:"macchiato",cat:"Caffetteria",name:"Caffè macchiato",price:1.50,tags:[],
-   opts:[{key:"tipo",label:"Tipo",choices:["normale","deca"]},{key:"macchia",label:"Macchia",choices:["calda","fredda"]},{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]}]},
-  {id:"cappuccino",cat:"Caffetteria",name:"Cappuccino caldo",price:2.00,tags:[],
-   opts:[{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]},{key:"cacao",label:"Cacao",choices:["no","sì"]}]},
-  {id:"cappuccino_lfree",cat:"Caffetteria",name:"Cappuccino senza lattosio",price:2.50,tags:[],
-   opts:[{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]},{key:"cacao",label:"Cacao",choices:["no","sì"]}]},
-  {id:"cappuccino_freddo",cat:"Caffetteria",name:"Cappuccino freddo",price:2.50,tags:[],
-   opts:[{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]},{key:"cacao",label:"Cacao",choices:["no","sì"]}]},
-  {id:"ginseng",cat:"Caffetteria",name:"Ginseng (piccolo)",price:1.50,tags:[],
-   opts:[{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]}]},
-  {id:"te",cat:"Caffetteria",name:"Tè caldo / Camomilla",price:2.00,tags:[],
-   opts:[{key:"zucchero",label:"Zucchero",choices:["senza zucchero","poco zucchero","zuccherato","molto zucchero"]}]},
-  {id:"cioccolata",cat:"Caffetteria",name:"Cioccolata calda",price:2.50,tags:[]},
-  {id:"cornetto_vuoto",cat:"Cornetti",name:"Cornetto vuoto",price:1.20,tags:[]},
-  {id:"cornetto_farcito",cat:"Cornetti",name:"Cornetto farcito",price:1.50,tags:[],
-   opts:[{key:"gusto",label:"Gusto",choices:["Cioccolato","Crema","Frutti di bosco","Albicocca"]}]},
-  {id:"cornetto_pistacchio",cat:"Cornetti",name:"Cornetto pistacchio",price:2.00,tags:[]},
-  {id:"cornetto_vegano",cat:"Cornetti",name:"Cornetto vegano",price:1.50,tags:["v"]},
-  {id:"cornetto_gf",cat:"Cornetti",name:"Cornetto senza glutine",price:2.00,tags:["g"]},
-  {id:"graffa",cat:"Dolci",name:"Graffa",price:1.20,tags:[]},
-  {id:"bombolone",cat:"Dolci",name:"Bombolone",price:1.20,tags:[]},
-  {id:"snack_gf",cat:"Dolci",name:"Snack senza glutine",price:1.80,tags:["g"]},
-  {id:"patatine",cat:"Snack",name:"Patatine",price:1.50,tags:[]},
-  {id:"spremuta",cat:"Soft Drink",name:"Spremuta d'arancia",price:3.00,tags:[]},
-  {id:"succo",cat:"Soft Drink",name:"Succo",price:2.50,tags:[],
-   opts:[{key:"gusto",label:"Gusto",choices:["Pesca","Pera","Albicocca","Ace","Ananas","Mirtillo"]}]},
-  {id:"te_freddo",cat:"Soft Drink",name:"Tè freddo",price:2.00,tags:[],
-   opts:[{key:"gusto",label:"Gusto",choices:["Pesca","Limone"]}]},
-  {id:"acqua_05",cat:"Soft Drink",name:"Acqua 0,5L",price:1.00,tags:[],
+  /* CAFFETTERIA */
+  {id:"caffe",cat:"Caffetteria",name:"Caffè",price:1.20,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"ginseng_orzo",cat:"Caffetteria",name:"Ginseng / Orzo",price:1.20,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"decaffeinato",cat:"Caffetteria",name:"Decaffeinato",price:1.20,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"caffe_corretto",cat:"Caffetteria",name:"Caffè Corretto",price:1.30,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"crema_caffe",cat:"Caffetteria",name:"Crema Caffè",price:1.20,tags:[]},
+  {id:"macchiato_caldo",cat:"Caffetteria",name:"Caffè Macchiato Caldo",price:1.20,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"macchiato_freddo",cat:"Caffetteria",name:"Caffè Macchiato Freddo",price:1.20,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"cappuccino",cat:"Caffetteria",name:"Cappuccino Caldo",price:2.00,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"cappuccino_freddo",cat:"Caffetteria",name:"Cappuccino Freddo",price:2.50,tags:[],
+   opts:[ZUCCHERO]},
+  /* COLAZIONE */
+  {id:"cornetto",cat:"Colazione",name:"Cornetto",price:1.20,tags:[]},
+  {id:"colazione_special",cat:"Colazione",name:"Colazione Special",price:1.50,tags:[]},
+  {id:"cornetto_mini",cat:"Colazione",name:"Cornetto Mini",price:0.80,tags:[]},
+  {id:"biscotto_amarena",cat:"Colazione",name:"Biscotto Amarena",price:1.30,tags:[]},
+  {id:"biscottino_amarena",cat:"Colazione",name:"Biscottino Amarena",price:0.80,tags:[]},
+  /* ACQUE */
+  {id:"acqua_05",cat:"Acque",name:"Acqua Nat./Frizzante 50cl",price:1.00,tags:[],
    opts:[{key:"tipo",label:"Tipo",choices:["naturale","frizzante"]}]},
-  {id:"acqua_15",cat:"Soft Drink",name:"Acqua 1,5L",price:1.50,tags:[],
+  {id:"acqua_1lt",cat:"Acque",name:"Acqua Nat./Frizzante 1lt",price:1.50,tags:[],
    opts:[{key:"tipo",label:"Tipo",choices:["naturale","frizzante"]}]},
-  {id:"coca",cat:"Soft Drink",name:"Coca-Cola 33cl",price:2.00,tags:[]},
-  {id:"fanta",cat:"Soft Drink",name:"Fanta 33cl",price:2.00,tags:[]},
-  {id:"sprite",cat:"Soft Drink",name:"Sprite 33cl",price:2.00,tags:[]},
-  {id:"energy",cat:"Soft Drink",name:"Energy drink",price:3.00,tags:[]}
+  /* SOFT DRINK */
+  {id:"succo_frutta",cat:"Soft Drink",name:"Succo di Frutta",price:1.50,tags:[],
+   opts:[{key:"gusto",label:"Gusto",choices:["Ananas","Pera","Pesca","Albicocca"]}]},
+  {id:"succo_mirtillo",cat:"Soft Drink",name:"Succo Mirtillo",price:2.00,tags:[]},
+  {id:"coca_33",cat:"Soft Drink",name:"Coca-Cola / Zero / Fanta / Sprite 33cl",price:1.50,tags:[]},
+  {id:"coca_15",cat:"Soft Drink",name:"Coca-Cola / Fanta 1,5lt",price:2.50,tags:[]},
+  {id:"lemonsoda",cat:"Soft Drink",name:"Lemonsoda / Aranciata",price:1.50,tags:[]},
+  {id:"schweppes",cat:"Soft Drink",name:"Schweppes",price:2.00,tags:[],
+   opts:[{key:"gusto",label:"Gusto",choices:["Arancia","Tonica","Limone"]}]},
+  /* ANALCOLICI & ENERGY */
+  {id:"tassoni",cat:"Analcolici & Energy",name:"Tassoni",price:2.00,tags:[]},
+  {id:"crodino",cat:"Analcolici & Energy",name:"Crodino",price:2.00,tags:[]},
+  {id:"san_bitter",cat:"Analcolici & Energy",name:"San Bitter Rosso / Bianco",price:2.00,tags:[],
+   opts:[{key:"tipo",label:"Tipo",choices:["rosso","bianco"]}]},
+  {id:"chinotto",cat:"Analcolici & Energy",name:"Chinotto / Cedrata",price:2.50,tags:[],
+   opts:[{key:"tipo",label:"Tipo",choices:["chinotto","cedrata"]}]},
+  {id:"powerade",cat:"Analcolici & Energy",name:"Powerade",price:2.00,tags:[]},
+  {id:"monster_redbull",cat:"Analcolici & Energy",name:"Monster / Red Bull",price:2.50,tags:[],
+   opts:[{key:"tipo",label:"Tipo",choices:["Monster","Red Bull"]}]},
+  /* BIRRE */
+  {id:"peroni",cat:"Birre",name:"Peroni 33cl",price:1.50,tags:[]},
+  {id:"heineken",cat:"Birre",name:"Heineken",price:2.00,tags:[]},
+  {id:"corona",cat:"Birre",name:"Corona",price:2.50,tags:[]},
+  {id:"tennets",cat:"Birre",name:"Tennet's",price:3.00,tags:[]},
+  /* VINO & BOLLICINE */
+  {id:"maschio",cat:"Vino & Bollicine",name:"Maschio (calice)",price:3.50,tags:[]},
+  {id:"spumante",cat:"Vino & Bollicine",name:"Bottiglia Spumante",price:10.00,tags:[]},
+  /* COCKTAIL & LIQUORI */
+  {id:"drink",cat:"Cocktail & Liquori",name:"Drink",price:4.00,tags:[]},
+  {id:"drink_special",cat:"Cocktail & Liquori",name:"Drink Special",price:5.00,tags:[]},
+  {id:"amaro",cat:"Cocktail & Liquori",name:"Amaro",price:2.00,tags:[]},
+  {id:"limoncello",cat:"Cocktail & Liquori",name:"Limoncello e Vari",price:1.50,tags:[]},
+  {id:"cicchetto",cat:"Cocktail & Liquori",name:"Cicchetto",price:2.00,tags:[]},
+  /* BEVANDE CALDE */
+  {id:"te_caldo",cat:"Bevande Calde",name:"Tè",price:1.00,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"camomilla",cat:"Bevande Calde",name:"Camomilla",price:1.00,tags:[],
+   opts:[ZUCCHERO]},
+  {id:"cioccolata",cat:"Bevande Calde",name:"Cioccolata Calda",price:1.80,tags:[]}
 ];
 
 const CATS = ["Tutto",...[...new Set(CATALOG.map(p=>p.cat))]];
@@ -557,11 +638,13 @@ function renderMenu(){
 
   document.getElementById("main").innerHTML=`
     ${closedBanner}
-    <div class="sw">
-      <span class="sicon">🔍</span>
-      <input class="search" id="searchIn" placeholder="Cerca nel menù..." value="${esc(S.q)}"/>
+    <div class="sticky-filter">
+      <div class="sw">
+        <span class="sicon">🔍</span>
+        <input class="search" id="searchIn" placeholder="Cerca nel menù..." value="${esc(S.q)}"/>
+      </div>
+      <div class="chips" id="chips">${chips}</div>
     </div>
-    <div class="chips" id="chips">${chips}</div>
     ${list.length?`<div class="pgrid">${cards}</div>`:`
       <div class="empty">
         <span class="empty-icon">🔍</span>
@@ -890,9 +973,13 @@ function renderInfo(){
           </div>
         </div>
       </div>
-      <iframe class="info-map"
-        src="https://www.openstreetmap.org/export/embed.html?bbox=14.4740,40.6960,14.4840,40.7020&layer=mapnik&marker=40.6990,14.4790"
-        title="Mappa ORO NERO" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      <div style="position:relative;">
+        <iframe class="info-map"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=14.4832,40.6982,14.4883,40.7032&layer=mapnik&marker=40.7007,14.4858"
+          title="Mappa ORO NERO" loading="lazy" referrerpolicy="no-referrer"></iframe>
+        <a href="https://maps.google.com/?q=40.7006924,14.4857509" target="_blank"
+           style="position:absolute;inset:0;z-index:10;display:block;" aria-label="Apri in Google Maps"></a>
+      </div>
     </div>
 
     <div class="card mt10">
