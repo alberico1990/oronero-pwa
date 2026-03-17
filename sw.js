@@ -1,4 +1,4 @@
-const CACHE = "oronero-v1";
+const CACHE = "oronero-v2";
 const ASSETS = [
   "./",
   "./index.html",
